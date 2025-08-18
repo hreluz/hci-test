@@ -13,6 +13,10 @@ public class PatientsService : IPatientsService
     {
         _repository = repository;
     }
+    
+    public async Task<IEnumerable<PatientDto>> GetAll(CancellationToken ct = default)
+        => (await _repository.GetAll(ct)).Select(ToDto);
 
-    // Define your patient search logic here based on the interface method definition
+    private static PatientDto ToDto(PatientEntity e)
+        => new(e.Id, e.FirstName, e.LastName, e.Email);
 }

@@ -8,13 +8,14 @@ namespace PatientAdministrationSystem.Infrastructure.Repositories;
 public class PatientsRepository : IPatientsRepository
 {
     private readonly HciDataContext _context;
+    private readonly DbSet<PatientEntity> _patients;
 
     public PatientsRepository(HciDataContext context)
     {
         _context = context;
+        _patients = context.Patients;
     }
 
-
-
-    // Add logic here for your querying the data context
+    public async Task<IEnumerable<PatientEntity>> GetAll(CancellationToken ct = default)
+        => await _patients.AsNoTracking().ToListAsync(ct);
 }

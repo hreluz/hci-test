@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PatientAdministrationSystem.Application.Entities;
 using PatientAdministrationSystem.Application.Interfaces;
 
 namespace Hci.Ah.Home.Api.Gateway.Controllers.Patients;
@@ -15,6 +16,11 @@ public class PatientsController : ControllerBase
         _patientsService = patientsService;
     }
 
-    // Define your API contracts here
-
+    // GET /api/patients
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<PatientEntity>>> GetAll(CancellationToken ct)
+    {
+        var patients = await _patientsService.GetAll(ct);
+        return Ok(patients);
+    }
 }
