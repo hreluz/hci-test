@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PatientAdministrationSystem.API.Models;
 using PatientAdministrationSystem.Application.Entities;
 using PatientAdministrationSystem.Application.Interfaces;
 
@@ -20,15 +21,9 @@ public class PatientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<PatientEntity>>> GetAll([FromQuery] string? name, CancellationToken ct)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            var all = await _patientsService.GetAll(ct);
-            return Ok(all);
-        }
-        else
-        {
-            var filtered = await _patientsService.SearchByName(name, ct);
-            return Ok(filtered);
-        }
+        var patients = string.IsNullOrWhiteSpace(name)
+            ? await _patientsService.GetAll(ct)
+            : await _patientsService.SearchByName(name, ct);
+        return Ok(new ApiResponse<IEnumerable<PatientDto>>("Patients retrieved successfully", patients));
     }
 }
