@@ -18,9 +18,17 @@ public class PatientsController : ControllerBase
 
     // GET /api/patients
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PatientEntity>>> GetAll(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<PatientEntity>>> GetAll([FromQuery] string? name, CancellationToken ct)
     {
-        var patients = await _patientsService.GetAll(ct);
-        return Ok(patients);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            var all = await _patientsService.GetAll(ct);
+            return Ok(all);
+        }
+        else
+        {
+            var filtered = await _patientsService.SearchByName(name, ct);
+            return Ok(filtered);
+        }
     }
 }

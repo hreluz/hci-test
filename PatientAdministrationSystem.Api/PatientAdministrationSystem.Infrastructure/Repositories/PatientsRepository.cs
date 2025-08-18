@@ -18,4 +18,11 @@ public class PatientsRepository : IPatientsRepository
 
     public async Task<IEnumerable<PatientEntity>> GetAll(CancellationToken ct = default)
         => await _patients.AsNoTracking().ToListAsync(ct);
+
+    public async Task<IEnumerable<PatientEntity>> Find(Expression<Func<PatientEntity, bool>> predicate, CancellationToken ct = default)
+    => await _patients
+        .Where(predicate)
+        .AsNoTracking()
+        .ToListAsync(ct);
+
 }
