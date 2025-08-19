@@ -1,7 +1,7 @@
 import { apiClient, endpoints } from "../api";
-import { Patient } from "../interfaces/patient";
+import { PatientListResponse } from "../interfaces/responses/getPatientsResponse.interface";
 
-export async function getPatientListService() {
-  const { data } = await apiClient.get<Patient[]>(endpoints.patient.list());
+export async function getPatientListService(query = '') {
+  const { data } = await apiClient.get<PatientListResponse>(endpoints.patient.list(query));
   return data;
 }

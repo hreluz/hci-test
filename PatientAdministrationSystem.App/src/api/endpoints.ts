@@ -1,5 +1,6 @@
 export const endpoints = {
   patient: {
-    list: () => `/patients`
+    list: (query:string) => `/patients?name=${query}`,
+    find: (id:string) => `/patients/${id}`,
   },
 };

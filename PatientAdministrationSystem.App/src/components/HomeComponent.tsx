@@ -1,19 +1,18 @@
 import { HeaderComponent } from "./HeaderComponent/HeaderComponent";
-import { PatientsListComponent } from "./PatientsListComponent/PatientsListComponent";
+import { PatientsListComponent } from "./PatientsCardListComponent/PatientsCardListComponent";
 import {usePatient} from '../hooks/usePatient'
 import { SearchBarComponent } from "./SearchBarComponent/SearchBarComponent";
-import { useState } from "react";
+import { PatientDetailCardComponent } from "./PatientDetailCardComponent/PatientDetailCardComponent";
 
 export const HomeComponent = () => {
-
-    const {patientsList} = usePatient();
-    const [search, setSearch] = useState('');
+    const {patientsList, searchPatients, patientDetail, findPatient} = usePatient();
 
     return (
-        <div className="">
+        <div className="bg-gray-50 min-h-screen flex flex-col items-center p-6">
             <HeaderComponent title="Search Patients"/>
-            <SearchBarComponent search={search} setSearch={setSearch}/>
-            <PatientsListComponent patientsList={patientsList}/>
+            <SearchBarComponent placeholder="Search anything" onQuery={searchPatients}/>
+            <PatientsListComponent patientsList={patientsList} findPatient={findPatient}/>
+            <PatientDetailCardComponent patientDetail={patientDetail}/>
         </div>
     );
 };
