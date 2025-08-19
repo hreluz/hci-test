@@ -28,6 +28,12 @@ public class PatientsService : IPatientsService
         return matches.Select(ToDto);
     }
 
+    public async Task<PatientDetailDto?> GetById(Guid id, CancellationToken ct = default)
+    {
+        var entity = await _repository.GetById(id, ct);
+        return entity is null ? null : entity;
+    }
+
     private static PatientDto ToDto(PatientEntity e)
         => new(e.Id, e.FirstName, e.LastName, e.Email);
 }

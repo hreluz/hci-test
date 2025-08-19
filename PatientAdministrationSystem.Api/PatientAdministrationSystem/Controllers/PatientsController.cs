@@ -26,4 +26,16 @@ public class PatientsController : ControllerBase
             : await _patientsService.SearchByName(name, ct);
         return Ok(new ApiResponse<IEnumerable<PatientDto>>("Patients retrieved successfully", patients));
     }
+
+    // GET /api/patients/{id}
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<ApiResponse<PatientDetailDto>>> GetById(Guid id, CancellationToken ct)
+    {
+        var patient = await _patientsService.GetById(id, ct);
+
+        if (patient is null)
+            return NotFound(new ApiResponse<PatientDetailDto>("Patient not found", null));
+
+        return Ok(new ApiResponse<PatientDetailDto>("Patient retrieved successfully", patient));
+    }
 }
